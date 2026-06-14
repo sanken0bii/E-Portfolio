@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Danial Ihsan — Mobile Programming e-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7F2;
+    --paper-line:#E7E0D4;
+    --ink:#2B2640;
+    --ink-soft:#6B6478;
+    --accent:#6650A4;
+    --accent-soft:#EFE9FB;
+    --highlight:#E8A23D;
+    --card:#FFFFFF;
+    --done:#4C9A6A;
+    --shadow: 0 1px 2px rgba(43,38,64,0.04), 0 8px 24px rgba(43,38,64,0.06);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    background-image:
+      repeating-linear-gradient(to bottom, transparent 0px, transparent 38px, var(--paper-line) 39px);
+  }
+
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* Skip link for accessibility */
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:var(--ink); color:#fff; padding:8px 16px; z-index:200;
+  }
+  .skip-link:focus{left:8px; top:8px;}
+
+  :focus-visible{
+    outline:3px solid var(--highlight);
+    outline-offset:2px;
+  }
+
+  /* ===== Header / Hero ===== */
+  header{
+    max-width:920px;
+    margin:0 auto;
+    padding:64px 24px 48px;
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    display:inline-block;
+    width:28px; height:2px;
+    background:var(--highlight);
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    margin-bottom:18px;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--accent);
+  }
+
+  .tagline{
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    max-width:560px;
+    margin-bottom:36px;
+  }
+
+  .profile-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+    gap:14px;
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:14px;
+    padding:24px;
+    box-shadow:var(--shadow);
+  }
+  .profile-item .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  .profile-item .value{
+    font-weight:600;
+    font-size:0.98rem;
+  }
+
+  .sdg-banner{
+    margin-top:18px;
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    background:var(--accent-soft);
+    border-radius:14px;
+    padding:18px 22px;
+  }
+  .sdg-badge{
+    flex:none;
+    width:46px; height:46px;
+    border-radius:10px;
+    background:var(--accent);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.1rem;
+  }
+  .sdg-text strong{ display:block; font-size:0.95rem; margin-bottom:2px;}
+  .sdg-text span{ color:var(--ink-soft); font-size:0.92rem;}
+
+  /* ===== Section shells ===== */
+  section{
+    max-width:920px;
+    margin:0 auto;
+    padding:48px 24px;
+  }
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:28px;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px;
+  }
+  .section-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.7rem;
+  }
+  .section-head .count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  .intro-text p{
+    margin-bottom:14px;
+    max-width:680px;
+  }
+
+  /* ===== Log entries (Labs / Projects) ===== */
+  .log{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .entry{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    transition:transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .entry:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 8px rgba(43,38,64,0.06), 0 16px 32px rgba(43,38,64,0.10);
+  }
+
+  .entry-head{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px 22px;
+  }
+  .entry-num{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--accent);
+    flex:none;
+    width:46px;
+  }
+  .entry-title{
+    flex:1;
+  }
+  .entry-title h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    margin-bottom:2px;
+  }
+  .entry-title .topic{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+  .status-pill{
+    flex:none;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    background:var(--accent-soft);
+    color:var(--done);
+    border:1px solid rgba(76,154,106,0.25);
+    padding:5px 12px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+
+  .entry-body{
+    padding:0 22px 22px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  @media (min-width:680px){
+    .entry-body{
+      grid-template-columns: 1.5fr 1fr;
+      align-items:start;
+    }
+  }
+
+  .entry-reflection{
+    font-size:0.94rem;
+    color:var(--ink);
+  }
+  .entry-reflection .field-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    display:block;
+  }
+
+  .entry-media{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .video-link{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--ink);
+    color:#fff;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:0.88rem;
+    font-weight:600;
+  }
+  .video-link:hover{
+    background:var(--accent);
+    text-decoration:none;
+  }
+  .video-link .play{
+    flex:none;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:var(--highlight);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.7rem;
+    color:var(--ink);
+  }
+
+  .screenshot-note{
+    border:1px dashed var(--paper-line);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  /* ===== Project cards ===== */
+  .project-card{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:28px;
+    margin-bottom:24px;
+  }
+  .project-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    margin-bottom:6px;
+  }
+  .project-card .meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:14px;
+  }
+  .project-card p{ margin-bottom:14px; max-width:680px; }
+  .project-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:6px;
+  }
+  .link-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    border:1px solid var(--ink);
+    border-radius:30px;
+    padding:9px 18px;
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--ink);
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .link-btn:hover{
+    background:var(--ink);
+    color:#fff;
+    text-decoration:none;
+  }
+  .link-btn.placeholder{
+    border-style:dashed;
+    color:var(--ink-soft);
+    border-color:var(--ink-soft);
+  }
+  .link-btn.placeholder:hover{
+    background:transparent;
+    color:var(--ink-soft);
+  }
+
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+    gap:12px;
+    margin-top:18px;
+  }
+  .pillar{
+    background:var(--accent-soft);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .pillar .pillar-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--accent);
+    margin-bottom:4px;
+  }
+  .pillar .pillar-value{
+    font-size:0.88rem;
+    font-weight:600;
+  }
+
+  /* ===== Reflection / skills / resources ===== */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+    gap:12px;
+  }
+  .skill-chip{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    padding:14px 16px;
+    text-align:center;
+    font-weight:600;
+    font-size:0.9rem;
+    box-shadow:var(--shadow);
+  }
+  .skill-chip .skill-icon{
+    font-family:'Fraunces', serif;
+    font-size:1.4rem;
+    color:var(--accent);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  .resource-list{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .resource-list li{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:0.92rem;
+    box-shadow:var(--shadow);
+  }
+  .resource-list .res-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-right:8px;
+  }
+
+  /* ===== Footer ===== */
+  footer{
+    max-width:920px;
+    margin:0 auto;
+    padding:40px 24px 80px;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    border-top:1px solid var(--paper-line);
+    margin-top:24px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:10px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header>
+  <div class="eyebrow">TK2323 / TM2213 — Mobile Programming e-Portfolio</div>
+  <h1>Building <em>EduTrack</em>,<br>one lab at a time.</h1>
+  <p class="tagline">
+    A running log of labs and projects from a single semester of Jetpack Compose —
+    from a static screen in Lab&nbsp;1 to a 7-screen study planner with Room,
+    Firebase, a live quotes API, and a shake-to-study sensor in Project&nbsp;2.
+  </p>
+
+  <div class="profile-grid">
+    <div class="profile-item">
+      <div class="label">Name</div>
+      <div class="value">Muhammad Danial Ihsan</div>
+    </div>
+    <div class="profile-item">
+      <div class="label">Matric No.</div>
+      <div class="value">A208463</div>
+    </div>
+    <div class="profile-item">
+      <div class="label">Programme</div>
+      <div class="value">Bachelor of Computer Science, FTSM, UKM</div>
+    </div>
+    <div class="profile-item">
+      <div class="label">Instructor</div>
+      <div class="value">Dr. Nazatul Aini</div>
+    </div>
+  </div>
+
+  <div class="sdg-banner">
+    <div class="sdg-badge">4</div>
+    <div class="sdg-text">
+      <strong>SDG 4 — Quality Education</strong>
+      <span>EduTrack helps students plan subjects, track progress, and build consistent study habits — giving them a simple tool to take ownership of their own learning.</span>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== INTRO / LEARNING GOALS ===================== -->
+  <section id="about">
+    <div class="section-head">
+      <h2>About this portfolio</h2>
+      <span class="count">profile · goals</span>
+    </div>
+    <div class="intro-text">
+      <p>
+        I'm a Computer Science student at FTSM, UKM, taking Mobile Programming this semester.
+        Coming in, my goal was to move beyond writing static layouts and actually understand how
+        real Android apps are structured — screens that talk to each other, data that survives
+        a screen rotation, and information that comes from outside the app entirely.
+      </p>
+      <p>
+        Each lab below builds on the last one. By Project 2, the small "study tracker" idea from
+        Lab 1 has grown into EduTrack — an app with local storage, cloud sync, a live API, and a
+        hardware sensor, all wired together through a single shared ViewModel.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== LAB SUBMISSIONS ===================== -->
+  <section id="labs">
+    <div class="section-head">
+      <h2>Lab submissions</h2>
+      <span class="count">05 entries</span>
+    </div>
+
+    <div class="log">
+
+      <!-- Lab 1 -->
+      <article class="entry">
+        <div class="entry-head">
+          <div class="entry-num">01</div>
+          <div class="entry-title">
+            <h3>Lab 1 — UI Foundations</h3>
+            <div class="topic">Static layouts with Jetpack Compose</div>
+          </div>
+          <div class="status-pill">Completed</div>
+        </div>
+        <div class="entry-body">
+          <div class="entry-reflection">
+            <span class="field-label">Reflection</span>
+            This lab was my first real contact with Compose's declarative style — describing
+            what the UI should look like rather than how to build it step by step. Building a
+            static screen for the very first version of EduTrack helped me get comfortable with
+            Columns, Rows, and basic Modifiers before any logic was involved.
+          </div>
+          <div class="entry-media">
+            <a class="video-link" href="https://youtu.be/l81qGq9ayss" target="_blank" rel="noopener">
+              <span class="play">▶</span> Watch Lab 1 demo on YouTube
+            </a>
+            <div class="screenshot-note">screenshots: see GitHub repo / Project 1 folder</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 2 -->
+      <article class="entry">
+        <div class="entry-head">
+          <div class="entry-num">02</div>
+          <div class="entry-title">
+            <h3>Lab 2 — Interaction & State</h3>
+            <div class="topic">TextField, Button, dynamic UI updates</div>
+          </div>
+          <div class="status-pill">Completed</div>
+        </div>
+        <div class="entry-body">
+          <div class="entry-reflection">
+            <span class="field-label">Reflection</span>
+            Lab 2 was where the app started feeling "alive" — using <code>remember</code> and
+            <code>mutableStateOf</code> to react to user input. Wiring up a TextField and Button
+            to update the screen instantly was a small moment, but it's the same core idea that
+            powers every form in EduTrack today, including Add Subject and Profile.
+          </div>
+          <div class="entry-media">
+            <a class="video-link" href="https://youtu.be/2DkFS30M4l8?si=obz_w8bQmBzg0o4z" target="_blank" rel="noopener">
+              <span class="play">▶</span> Watch Lab 2 demo on YouTube
+            </a>
+            <div class="screenshot-note">screenshots: see GitHub repo / Project 1 folder</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 3 -->
+      <article class="entry">
+        <div class="entry-head">
+          <div class="entry-num">03</div>
+          <div class="entry-title">
+            <h3>Lab 3 — Material Design</h3>
+            <div class="topic">Theming, typography, color schemes, Cards</div>
+          </div>
+          <div class="status-pill">Completed</div>
+        </div>
+        <div class="entry-body">
+          <div class="entry-reflection">
+            <span class="field-label">Reflection</span>
+            This is where the purple theme that runs through every later screen was born.
+            Learning Material 3's color roles (primary, surface, onSurface, etc.) instead of
+            hardcoding colors made it much easier to keep Project 1 and Project 2 visually
+            consistent without rewriting styles everywhere.
+          </div>
+          <div class="entry-media">
+            <a class="video-link" href="https://youtu.be/gBfEDflcu6s" target="_blank" rel="noopener">
+              <span class="play">▶</span> Watch Lab 3 demo on YouTube
+            </a>
+            <div class="screenshot-note">screenshots: see GitHub repo / Project 1 folder</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 4 -->
+      <article class="entry">
+        <div class="entry-head">
+          <div class="entry-num">04</div>
+          <div class="entry-title">
+            <h3>Lab 4 — Navigation & ViewModel</h3>
+            <div class="topic">Multi-screen navigation, shared state</div>
+          </div>
+          <div class="status-pill">Completed</div>
+        </div>
+        <div class="entry-body">
+          <div class="entry-reflection">
+            <span class="field-label">Reflection</span>
+            Lab 4 was the turning point of the semester — going from one screen to a real
+            navigation graph with routes, and moving shared data out of individual composables
+            into a ViewModel with StateFlow. This single change is the backbone that every
+            project screen since has been built on top of.
+          </div>
+          <div class="entry-media">
+            <a class="video-link" href="https://youtu.be/ix9XpRtAGZw" target="_blank" rel="noopener">
+              <span class="play">▶</span> Watch Lab 4 demo on YouTube
+            </a>
+            <div class="screenshot-note">screenshots: see GitHub repo / Project 1 folder</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 5 -->
+      <article class="entry">
+        <div class="entry-head">
+          <div class="entry-num">05</div>
+          <div class="entry-title">
+            <h3>Lab 5 — Room Database</h3>
+            <div class="topic">Entity, DAO, Database, Repository, Flow</div>
+          </div>
+          <div class="status-pill">Completed</div>
+        </div>
+        <div class="entry-body">
+          <div class="entry-reflection">
+            <span class="field-label">Reflection</span>
+            Lab 5 replaced the in-memory subject list with a real local database. Understanding
+            how <code>@Entity</code> maps to a table, how the DAO exposes a <code>Flow</code>,
+            and how the Repository sits between the DAO and ViewModel made the later jump to
+            Firebase in Project 2 feel much less intimidating — it's the same shape, just a
+            different backend.
+          </div>
+          <div class="entry-media">
+            <a class="video-link" href="https://youtu.be/UCj7lfill8o" target="_blank" rel="noopener">
+              <span class="play">▶</span> Watch Lab 5 demo on YouTube
+            </a>
+            <div class="screenshot-note">screenshots: see GitHub repo / Project 1 folder</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== PROJECT SUBMISSIONS ===================== -->
+  <section id="projects">
+    <div class="section-head">
+      <h2>Project submissions</h2>
+      <span class="count">02 entries</span>
+    </div>
+
+    <!-- Project 1 -->
+    <div class="project-card">
+      <div class="meta">Project 1 · 5 screens</div>
+      <h3>EduTrack — Study Planner (v1)</h3>
+      <p>
+        Project 1 turned the Lab 4 navigation skeleton into a working study planner: a Home
+        dashboard, Add Subject form, Subject List, Subject Detail, and Profile screen, all
+        sharing one <code>SubjectViewModel</code>. This was the first time the app felt like a
+        real, usable tool rather than a lab exercise — adding a subject on one screen and
+        immediately seeing it reflected on another was a satisfying milestone.
+      </p>
+      <p>
+        <strong>Lessons learned:</strong> getting package names, file locations, and the
+        AndroidManifest activity path to line up exactly is half the battle with Compose
+        Navigation — most of my early build errors came from small mismatches there, not from
+        the Compose code itself.
+      </p>
+      <div class="project-links">
+        <a class="video-link" style="background:var(--accent)" href="https://youtu.be/f5vjgSHyC9I" target="_blank" rel="noopener">
+          <span class="play">▶</span> Project 1 VSR on YouTube
+        </a>
+        <a class="link-btn placeholder" href="#" aria-disabled="true">
+          GitHub repo — add link
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card">
+      <div class="meta">Project 2 · 7 screens</div>
+      <h3>EduTrack — Study Planner (v2)</h3>
+      <p>
+        Project 2 expands EduTrack to seven screens by adding a <strong>Study Session</strong>
+        screen and a public <strong>Leaderboard</strong>, and connects the app to the outside
+        world across all four technical pillars below.
+      </p>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-label">Local persistence</div>
+          <div class="pillar-value">Room — subjects saved on-device</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-label">Cloud integration</div>
+          <div class="pillar-value">Firebase Firestore — leaderboard &amp; subject backup</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-label">Internet data</div>
+          <div class="pillar-value">Retrofit — live motivational quotes (ZenQuotes API)</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-label">Sensor</div>
+          <div class="pillar-value">Accelerometer — shake to start a study session</div>
+        </div>
+      </div>
+      <p style="margin-top:18px;">
+        <strong>Lessons learned:</strong> Firebase and Room follow almost the same Repository
+        pattern from Lab 5, which made the cloud sync logic click quickly. The trickiest part was
+        the accelerometer's shake-cooldown timing — too sensitive and it triggers constantly,
+        too strict and a real shake gets missed.
+      </p>
+      <div class="project-links">
+        <a class="link-btn placeholder" href="#" aria-disabled="true">
+          Project 2 VSR — add YouTube link
+        </a>
+        <a class="link-btn placeholder" href="#" aria-disabled="true">
+          GitHub repo — add link
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== REFLECTION & LEARNING JOURNEY ===================== -->
+  <section id="reflection">
+    <div class="section-head">
+      <h2>Reflection &amp; learning journey</h2>
+      <span class="count">Lab 1 → Project 2</span>
+    </div>
+    <div class="intro-text">
+      <p>
+        Looking back at Lab 1, the app barely did anything — a fixed layout with no logic at all.
+        Each lab added exactly one capability on top of the last: interaction in Lab 2, visual
+        polish in Lab 3, navigation and shared state in Lab 4, and persistence in Lab 5. By the
+        time Project 1 arrived, those pieces combined naturally into a working 5-screen app, and
+        Project 2 simply extended the same patterns outward — to the cloud, to the internet, and
+        to the phone's hardware.
+      </p>
+      <p>
+        The biggest challenge throughout was environment and configuration issues — package name
+        mismatches, Gradle/KSP version conflicts, and file-location errors caused far more build
+        failures than any actual Compose UI code did. Working through those taught me to read
+        error logs more carefully and to understand <em>why</em> a fix works, not just copy it.
+      </p>
+      <p>
+        In terms of SDG impact, EduTrack stays small and personal by design — it doesn't try to
+        replace a school's LMS, but it gives an individual student a lightweight way to plan
+        subjects, see their own progress, and build a habit of focused study sessions, which is
+        exactly the kind of low-barrier tool SDG 4 (Quality Education) calls for.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== SKILLS & TECH STACK ===================== -->
+  <section id="skills">
+    <div class="section-head">
+      <h2>Skills &amp; tech stack</h2>
+      <span class="count">confident with</span>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="skill-icon">Aa</span>Jetpack Compose</div>
+      <div class="skill-chip"><span class="skill-icon">M3</span>Material 3 Theming</div>
+      <div class="skill-chip"><span class="skill-icon">→</span>Navigation Compose</div>
+      <div class="skill-chip"><span class="skill-icon">VM</span>ViewModel + StateFlow</div>
+      <div class="skill-chip"><span class="skill-icon">DB</span>Room Database</div>
+      <div class="skill-chip"><span class="skill-icon">☁</span>Firebase Firestore</div>
+      <div class="skill-chip"><span class="skill-icon">⇄</span>Retrofit / REST APIs</div>
+      <div class="skill-chip"><span class="skill-icon">⚡</span>Sensors (Accelerometer)</div>
+      <div class="skill-chip"><span class="skill-icon">Kt</span>Kotlin Coroutines</div>
+      <div class="skill-chip"><span class="skill-icon">Git</span>Git &amp; GitHub</div>
+    </div>
+  </section>
+
+  <!-- ===================== RESOURCES & REFERENCES ===================== -->
+  <section id="resources">
+    <div class="section-head">
+      <h2>Resources &amp; references</h2>
+      <span class="count">APIs · libraries · AI</span>
+    </div>
+    <ul class="resource-list">
+      <li><span class="res-tag">API</span>ZenQuotes — free motivational quotes API used on the Home and Study Session screens</li>
+      <li><span class="res-tag">Docs</span>Android Developers — Room, Navigation Compose, and Sensors guides</li>
+      <li><span class="res-tag">Docs</span>Firebase Firestore documentation — Firestore setup and queries</li>
+      <li><span class="res-tag">Lib</span>Retrofit + Gson + OkHttp — networking layer for Project 2</li>
+      <li><span class="res-tag">AI</span>AI assistance (Claude) was used to help structure code, debug Gradle/build errors, and draft this e-Portfolio. All code was reviewed and tested, and I can explain and modify each part during the Live Q&amp;A.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <span>EduTrack e-Portfolio — A208463 · Muhammad Danial Ihsan</span>
+  <span>TK2323 / TM2213 — Mobile Programming, FTSM UKM</span>
+</footer>
+
+</body>
+</html>
